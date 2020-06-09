@@ -24,10 +24,15 @@ SOFTWARE.
 
 package metric;
 
+import metric.extractor.FileParser;
+import metric.util.FileTraversal;
 import metric.util.FileUtil;
 import org.codehaus.plexus.util.StringUtils;
 import picocli.CommandLine;
 import picocli.CommandLine.PicocliException;
+
+import java.io.File;
+import java.io.IOException;
 
 public class Main {
 
@@ -63,11 +68,34 @@ public class Main {
 
 		inputDir = FileUtil.uniqFilePath(inputDir);
 		long startTime = System.currentTimeMillis();
-		
+
+		parseAllFiles(inputDir);
 
 		long endTime = System.currentTimeMillis();
 		System.out.println("Consumed time: " + (float) ((endTime - startTime) / 1000.00) + " s,  or "
 				+ (float) ((endTime - startTime) / 60000.00) + " min.");
 	}
+
+
+	private static final void parseAllFiles(String inputSrcPath) {
+		System.out.println("Start parsing files...");
+		FileTraversal fileTransversal = new FileTraversal(new FileTraversal.IFileVisitor() {
+			@Override
+			public void visit(File file) {
+				String fileFullPath = file.getAbsolutePath();
+				fileFullPath = FileUtil.uniqFilePath(fileFullPath);
+				parseFile(fileFullPath);
+			}
+
+		});
+		fileTransversal.travers(inputSrcPath);
+		System.out.println("all files procceed successfully...");
+
+	}
+
+	protected static void parseFile(String fileFullPath) {
+			System.out.println("parsing " + fileFullPath + "...");
+	}
+
 
 }

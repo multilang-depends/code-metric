@@ -31,9 +31,9 @@ import picocli.CommandLine.Parameters;
 @Command(name = "metric")
 public class MetricCommand {
 
-	@Parameters(index = "1", description = "The directory to be analyzed")
+	@Parameters(index = "0", description = "The directory to be analyzed")
     private String src;
-	@Parameters(index = "2",  description = "The output file name")
+	@Parameters(index = "1",  description = "The output file name")
 	private String output;
     @Option(names = {"-f", "--format"},split=",",  description = "the output format: [csv(default)")
     private String[] format=new String[]{"csv"};

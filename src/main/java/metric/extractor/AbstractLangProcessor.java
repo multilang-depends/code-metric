@@ -55,8 +55,6 @@ abstract public class AbstractLangProcessor {
 
 	}
 
-	protected abstract String fileSuffixes();
-
 	protected void parseFile(String fileFullPath) {
 		FileParser fileParser = createFileParser(fileFullPath);
 		try {
@@ -69,6 +67,10 @@ abstract public class AbstractLangProcessor {
 			e.printStackTrace();
 		}
 	}
+
+
+	protected abstract String fileSuffixes();
+
 
 	protected abstract FileParser createFileParser(String fileFullPath);
 
