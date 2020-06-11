@@ -22,24 +22,18 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-package metric;
+package metric.parser.c;
 
-import metric.parser.AbstractLangProcessor;
-import metric.parser.LangProcessorRegistration;
+import depends.extractor.c.CParserBaseListener;
+import metric.measure.MetricContext;
 
-public class LangRegister {
-	public LangRegister() {
-		add (new metric.parser.java.JavaProcessor());
-		add (new metric.parser.python.PythonProcessor());
-		add (new metric.parser.c.CProcessor());
-		add (new metric.parser.cpp.CppProcessor());
+public class CListener extends CParserBaseListener {
 
+
+	private MetricContext context;
+
+	public CListener(String fileFullPath, MetricContext context) {
+		this.context = context;
 	}
 
-	private void add(AbstractLangProcessor langProcessor) {
-		LangProcessorRegistration.getRegistry().register(langProcessor);
-
-	}
 }
-
-
