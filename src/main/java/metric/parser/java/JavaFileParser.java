@@ -51,7 +51,7 @@ public class JavaFileParser implements metric.parser.FileParser{
 
 	@Override
 	public void parse() throws IOException {
-		LexerEventCenter.getInstance().notifyNewFile(fileFullPath);
+		LexerEventCenter.getInstance().notifyNewFile(fileFullPath, "java");
 		CharStream input = CharStreams.fromFileName(fileFullPath);
 		JavaLexer lexer = new JavaLexer(input);
         lexer.setInterpreter(new LexerATNSimulator(lexer, lexer.getATN(), lexer.getInterpreter().decisionToDFA, new PredictionContextCache()));

@@ -9,11 +9,12 @@ import java.util.*;
 public class MetricContext implements Observer {
     Map<String,MetricData> dataList = new HashMap<>();
     MetricData data;
-    public void newFile(String fileFullPath) {
+    public void newFile(String fileFullPath, String lang) {
         data = new MetricData();
         dataList.put(fileFullPath,data);
         data.setPath(fileFullPath);
         data.setLoc(0L);
+        data.setLang(lang);
     }
 
     public void addStmt() {
@@ -29,7 +30,7 @@ public class MetricContext implements Observer {
     public void update(Observable o, Object arg) {
         if (arg instanceof NewFileEvent){
             NewFileEvent newFileEvent = (NewFileEvent) arg;
-            newFile(newFileEvent.getFileFullPath());
+            newFile(newFileEvent.getFileFullPath(), newFileEvent.getLang());
         }else if (arg instanceof NewLineEvent){
             NewLineEvent newLineEvent = (NewLineEvent)arg;
             if (newLineEvent.getText()==null) return;

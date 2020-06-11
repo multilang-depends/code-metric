@@ -18,8 +18,11 @@ public class CsvOutputFormatter extends OutputFormatter {
     public void output(FilenameWritter filenameWritter, ILeadingNameStrippper strippper) {
         try {
             PrintWriter writer = new PrintWriter(composeFilename()+".csv");
+            writer.println("language, filename, LOC");
             for (MetricData data:context.getAllEntries()){
-                writer.println(filenameWritter.reWrite(strippper.stripFilename(data.getPath())) + ", " + data.getLoc());
+                writer.println(data.getLang() + ", "
+                        + filenameWritter.reWrite(strippper.stripFilename(data.getPath()))
+                        + ", " + data.getLoc());
             }
             writer.close();
         } catch (FileNotFoundException e) {

@@ -49,7 +49,7 @@ public class PythonFileParser implements metric.parser.FileParser{
 
 	@Override
 	public void parse() throws IOException {
-		LexerEventCenter.getInstance().notifyNewFile(fileFullPath);
+		LexerEventCenter.getInstance().notifyNewFile(fileFullPath, "python");
 		CharStream input = CharStreams.fromFileName(fileFullPath);
 		PythonLexer lexer = new PythonLexer(input);
         lexer.setInterpreter(new LexerATNSimulator(lexer, lexer.getATN(), lexer.getInterpreter().decisionToDFA, new PredictionContextCache()));

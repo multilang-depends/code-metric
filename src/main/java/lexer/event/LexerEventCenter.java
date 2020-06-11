@@ -15,9 +15,9 @@ public class LexerEventCenter extends Observable {
         this.notifyObservers(new NewLineEvent(lineNumber,text));
     }
 
-    public void notifyNewFile(String fileFullPath) {
+    public void notifyNewFile(String fileFullPath, String lang) {
         this.setChanged();
-        this.notifyObservers(new NewFileEvent(fileFullPath));
+        this.notifyObservers(new NewFileEvent(fileFullPath,lang));
     }
 
     public void notifyDoneFile(String fileFullPath) {
