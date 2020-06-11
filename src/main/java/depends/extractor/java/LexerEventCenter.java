@@ -24,4 +24,9 @@ public class LexerEventCenter extends Observable {
         this.setChanged();
         this.notifyObservers(new DoneFileEvent(fileFullPath));
     }
+
+    public void notifyCommentLine(int lineNumber, String comment) {
+        this.setChanged();
+        this.notifyObservers(new NewBlockCommentEvent(lineNumber,comment));
+    }
 }

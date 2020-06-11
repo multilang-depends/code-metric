@@ -29,5 +29,25 @@ public class TestLineOfCode {
         assertEquals(new Long(9L),context.getFile(file).getLoc());
     }
 
+    @Test
+    public void test_comment_line_should_compute_successfully(){
+        String file = "./resources/java-code-examples/WithCommentLine.java";
+        new LangRegister();
+        MetricContext context = new MetricContext();
+        LexerEventCenter.getInstance().addObserver(context);
+        JavaProcessor processor = new JavaProcessor();
+        processor.process(file,context);
+        assertEquals(new Long(1L),context.getFile(file).getLoc());
+    }
 
+    @Test
+    public void test_mixed_comment_line_should_compute_successfully(){
+        String file = "./resources/java-code-examples/MixedCommentLine.java";
+        new LangRegister();
+        MetricContext context = new MetricContext();
+        LexerEventCenter.getInstance().addObserver(context);
+        JavaProcessor processor = new JavaProcessor();
+        processor.process(file,context);
+        assertEquals(new Long(5L),context.getFile(file).getLoc());
+    }
 }

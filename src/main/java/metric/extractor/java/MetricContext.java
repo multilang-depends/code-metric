@@ -1,5 +1,6 @@
 package metric.extractor.java;
 
+import depends.extractor.java.NewBlockCommentEvent;
 import depends.extractor.java.NewFileEvent;
 import depends.extractor.java.NewLineEvent;
 
@@ -32,9 +33,10 @@ public class MetricContext implements Observer {
         }else if (arg instanceof NewLineEvent){
             NewLineEvent newLineEvent = (NewLineEvent)arg;
             if (!newLineEvent.getText().isEmpty()){
-                System.out.println(newLineEvent.getText());
                 data.incrLoc();
             }
+        }else if (arg instanceof NewBlockCommentEvent){
+            NewBlockCommentEvent newBlockCommentEvent = (NewBlockCommentEvent) arg;
         }
     }
 
