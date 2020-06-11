@@ -1,5 +1,6 @@
-package metric;
+package metric.java;
 import lexer.event.LexerEventCenter;
+import metric.LangRegister;
 import metric.parser.java.JavaProcessor;
 import metric.measure.MetricContext;
 import org.junit.Test;

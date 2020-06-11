@@ -30,10 +30,12 @@ import metric.parser.LangProcessorRegistration;
 public class LangRegister {
 	public LangRegister() {
 		add (new metric.parser.java.JavaProcessor());
+		add (new metric.parser.python.PythonProcessor());
 	}
 
 	private void add(AbstractLangProcessor langProcessor) {
 		LangProcessorRegistration.getRegistry().register(langProcessor);
+
 	}
 }
 
