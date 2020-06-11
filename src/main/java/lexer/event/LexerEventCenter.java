@@ -1,4 +1,4 @@
-package depends.extractor.java;
+package lexer.event;
 
 import java.util.Observable;
 

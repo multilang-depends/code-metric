@@ -22,10 +22,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-package metric.extractor.java;
+package metric.parser.java;
 
 import depends.extractor.java.JavaParser;
 import depends.extractor.java.JavaParserBaseListener;
+import metric.measure.MetricContext;
 
 public class JavaListener extends JavaParserBaseListener {
 

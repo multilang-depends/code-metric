@@ -1,7 +1,7 @@
-package metric.extractor.java;
+package metric.parser.java;
 
-import metric.extractor.AbstractLangProcessor;
-import metric.extractor.FileParser;
+import metric.parser.AbstractLangProcessor;
+import metric.measure.MetricContext;
 
 import java.util.Arrays;
 import java.util.List;

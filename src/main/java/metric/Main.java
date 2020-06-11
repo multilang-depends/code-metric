@@ -23,15 +23,13 @@ SOFTWARE.
 */
 
 package metric;
-//test1
 
-import depends.extractor.java.LexerEventCenter;
-import metric.extractor.AbstractLangProcessor; //test2
-import metric.extractor.LangProcessorRegistration;
-import metric.extractor.java.MetricContext;
+import lexer.event.LexerEventCenter;
+import metric.parser.AbstractLangProcessor;
+import metric.parser.LangProcessorRegistration;
+import metric.measure.MetricContext;
 import metric.util.FileTraversal;
 import metric.util.FileUtil;
-import org.codehaus.plexus.util.StringUtils;
 import picocli.CommandLine;
 import picocli.CommandLine.PicocliException;
 

@@ -1,4 +1,4 @@
-package metric.extractor.java;
+package metric.measure;
 
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package depends.extractor.java;
+package lexer.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

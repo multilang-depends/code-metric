@@ -1,7 +1,7 @@
 package metric;
-import depends.extractor.java.LexerEventCenter;
-import metric.extractor.java.JavaProcessor;
-import metric.extractor.java.MetricContext;
+import lexer.event.LexerEventCenter;
+import metric.parser.java.JavaProcessor;
+import metric.measure.MetricContext;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

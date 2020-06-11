@@ -22,17 +22,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-package metric.extractor.java;
+package metric.parser.java;
 
 import java.io.IOException;
 
 import depends.extractor.java.JavaLexer;
 import depends.extractor.java.JavaParser;
-import depends.extractor.java.LexerEventCenter;
+import lexer.event.LexerEventCenter;
+import metric.measure.MetricContext;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.atn.LexerATNSimulator;
 import org.antlr.v4.runtime.atn.ParserATNSimulator;
 import org.antlr.v4.runtime.atn.PredictionContextCache;
@@ -41,7 +41,7 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 
 
-public class JavaFileParser implements metric.extractor.FileParser{
+public class JavaFileParser implements metric.parser.FileParser{
 	private final MetricContext context;
 	private String fileFullPath;
 	public JavaFileParser(String fileFullPath, MetricContext context) {
@@ -71,7 +71,6 @@ public class JavaFileParser implements metric.extractor.FileParser{
 	    }
 	    lexer.foundNewLine();
 	    LexerEventCenter.getInstance().notifyDoneFile(fileFullPath);
-	    
     }
 	
 }

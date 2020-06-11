@@ -24,16 +24,13 @@ SOFTWARE.
 
 package metric;
 
-import metric.extractor.AbstractLangProcessor;
-import metric.extractor.LangProcessorRegistration;
+import metric.parser.AbstractLangProcessor;
+import metric.parser.LangProcessorRegistration;
 
 public class LangRegister {
-
-
 	public LangRegister() {
-		add (new metric.extractor.java.JavaProcessor());
+		add (new metric.parser.java.JavaProcessor());
 	}
-	
 
 	private void add(AbstractLangProcessor langProcessor) {
 		LangProcessorRegistration.getRegistry().register(langProcessor);

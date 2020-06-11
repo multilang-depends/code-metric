@@ -1,8 +1,8 @@
-package metric.extractor.java;
+package metric.measure;
 
-import depends.extractor.java.NewBlockCommentEvent;
-import depends.extractor.java.NewFileEvent;
-import depends.extractor.java.NewLineEvent;
+import lexer.event.NewBlockCommentEvent;
+import lexer.event.NewFileEvent;
+import lexer.event.NewLineEvent;
 
 import java.util.*;
 

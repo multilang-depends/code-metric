@@ -22,17 +22,11 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-package metric.extractor;
+package metric.parser;
 
-import metric.extractor.java.MetricContext;
-import metric.util.FileTraversal;
-import metric.util.FileUtil;
+import metric.measure.MetricContext;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 abstract public class AbstractLangProcessor {
 
