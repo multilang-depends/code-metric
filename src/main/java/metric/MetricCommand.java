@@ -11,8 +11,6 @@ public class MetricCommand {
     private String src;
 	@Parameters(index = "1",  description = "The output file name")
 	private String output;
-    @Option(names = {"-f", "--format"},split=",",  description = "the output format: [csv(default)")
-    private String[] format=new String[]{"csv"};
 	@Option(names = {"-d", "--dir"},  description = "The output directory")
 	private String dir;
 	@Option(names = {"-s", "--strip-leading-path"},  description = "Strip the leading path.")
@@ -20,8 +18,6 @@ public class MetricCommand {
 	@Option(names = {"--strip-paths"}, split=",", description =  "The path(s) to be stripped. if -s enabled, the path(s) start after <src>. "
 			+ "Otherwise, the path(s) should be valid.")
 	private String[] strippedPaths = new String[]{};
-	@Option(names = {"-g", "--granularity"},  description = "Granularity of dependency.[file(default),method,L#(the level of folder. e.g. L1=1st level folder)]")
-    private String granularity="file";
 	@Option(names = {"-p", "--namepattern"},  description = "The name path pattern.[dot(.), unix(/) or windows(\\)")
     private String namePathPattern="";
 	@Option(names = {"-h","--help"}, usageHelp = true, description = "display this help and exit")
@@ -40,9 +36,6 @@ public class MetricCommand {
 	public void setOutput(String output) {
 		this.output = output;
 	}
-	public String[] getFormat() {
-		return format;
-	}
 	public String getOutputDir() {
 		if (dir==null) {
 			dir = System.getProperty("user.dir");
@@ -51,9 +44,6 @@ public class MetricCommand {
 	}
 	public boolean isHelp() {
 		return help;
-	}
-    public String getGranularity() {
-		return granularity;
 	}
 	public String getNamePathPattern() {
 		return namePathPattern;
