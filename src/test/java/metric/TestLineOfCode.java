@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
 public class TestLineOfCode {
     @Test
     public void test_normal_lines_should_compute_successfully(){
-        String file = "./resources/java-code-examples/NoBlankLineNoCommentLine.java";
+        String file = "./src/test/resources/java-code-examples/NoBlankLineNoCommentLine.java";
         new LangRegister();
         MetricContext context = new MetricContext();
         LexerEventCenter.getInstance().addObserver(context);
@@ -20,7 +20,7 @@ public class TestLineOfCode {
 
     @Test
     public void test_normal_lines_no_trail_should_compute_successfully(){
-        String file = "./resources/java-code-examples/NoBlankLineNoCommentLineNoTrailLine.java";
+        String file = "./src/test/resources/java-code-examples/NoBlankLineNoCommentLineNoTrailLine.java";
         new LangRegister();
         MetricContext context = new MetricContext();
         LexerEventCenter.getInstance().addObserver(context);
@@ -31,7 +31,7 @@ public class TestLineOfCode {
 
     @Test
     public void test_comment_line_should_compute_successfully(){
-        String file = "./resources/java-code-examples/WithCommentLine.java";
+        String file = "./src/test/resources/java-code-examples/WithCommentLine.java";
         new LangRegister();
         MetricContext context = new MetricContext();
         LexerEventCenter.getInstance().addObserver(context);
@@ -42,7 +42,7 @@ public class TestLineOfCode {
 
     @Test
     public void test_mixed_comment_line_should_compute_successfully(){
-        String file = "./resources/java-code-examples/MixedCommentLine.java";
+        String file = "./src/test/resources/java-code-examples/MixedCommentLine.java";
         new LangRegister();
         MetricContext context = new MetricContext();
         LexerEventCenter.getInstance().addObserver(context);

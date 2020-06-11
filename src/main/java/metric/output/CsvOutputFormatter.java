@@ -1,4 +1,4 @@
-package metric;
+package metric.output;
 
 import metric.measure.MetricContext;
 import metric.measure.MetricData;

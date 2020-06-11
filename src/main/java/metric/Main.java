@@ -25,12 +25,14 @@ SOFTWARE.
 package metric;
 
 import lexer.event.LexerEventCenter;
+import metric.output.CsvOutputFormatter;
 import metric.output.OutputFormatter;
 import metric.parser.AbstractLangProcessor;
 import metric.parser.LangProcessorRegistration;
 import metric.measure.MetricContext;
-import metric.util.FileTraversal;
-import metric.util.FileUtil;
+import multilang.depends.util.file.FileTraversal;
+import multilang.depends.util.file.FileUtil;
+import org.apache.commons.io.FilenameUtils;
 import picocli.CommandLine;
 import picocli.CommandLine.PicocliException;
 
@@ -99,7 +101,7 @@ public class Main {
 	}
 
 	protected void parseFile(String fileFullPath) {
-		String extension = FileUtil.getExtension(fileFullPath);
+		String extension = FilenameUtils.getExtension(fileFullPath);
 		Optional<AbstractLangProcessor> processor = LangProcessorRegistration.getRegistry().getLangOf(extension);
 		processor.ifPresent(p->{
 			System.out.println("parsing " + fileFullPath + "...");
