@@ -32,6 +32,7 @@ public class MetricContext implements Observer {
             newFile(newFileEvent.getFileFullPath());
         }else if (arg instanceof NewLineEvent){
             NewLineEvent newLineEvent = (NewLineEvent)arg;
+            if (newLineEvent.getText()==null) return;
             if (!newLineEvent.getText().isEmpty()){
                 data.incrLoc();
             }

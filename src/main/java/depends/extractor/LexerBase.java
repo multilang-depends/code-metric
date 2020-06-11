@@ -9,7 +9,7 @@ public abstract  class LexerBase extends Lexer {
     private final CharStream input;
     int start = 0;
     int lineNumber = 0;
-    private String code;
+    private String code = "";
 
     public  LexerBase(CharStream input){
         super(input);

@@ -13,8 +13,7 @@ public class TestLineOfCode {
 
     @Test
     public void test_mixed_comment_line_should_compute_successfully(){
-//        String file = "./src/test/resources/python-code-examples/MixedCommentLineOfPython.py";
-        String file = "./resources/python-code-examples/MixedCommentLineOfPython.py";
+        String file = "./src/test/resources/python-code-examples/MixedCommentLineOfPython.py";
         new LangRegister();
         MetricContext context = new MetricContext();
         LexerEventCenter.getInstance().addObserver(context);
