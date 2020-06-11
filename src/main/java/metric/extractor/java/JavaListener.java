@@ -24,12 +24,69 @@ SOFTWARE.
 
 package metric.extractor.java;
 
+import depends.extractor.java.JavaParser;
 import depends.extractor.java.JavaParserBaseListener;
 
 public class JavaListener extends JavaParserBaseListener {
 
-	public JavaListener(String fileFullPath) {
+
+	private MetricContext context;
+
+	public JavaListener(String fileFullPath, MetricContext context) {
+		this.context = context;
 	}
 
+	@Override
+	public void enterPackageDeclaration(JavaParser.PackageDeclarationContext ctx) {
+		super.enterPackageDeclaration(ctx);
+		context.addStmt();
+	}
 
+	@Override
+	public void enterImportDeclaration(JavaParser.ImportDeclarationContext ctx) {
+		super.enterImportDeclaration(ctx);
+		context.addStmt();
+	}
+
+	@Override
+	public void enterFieldDeclaration(JavaParser.FieldDeclarationContext ctx) {
+		super.enterFieldDeclaration(ctx);
+		context.addStmt();
+	}
+
+	@Override
+	public void enterAnnotationTypeElementRest(JavaParser.AnnotationTypeElementRestContext ctx) {
+		super.enterAnnotationTypeElementRest(ctx);
+		context.addStmt();
+	}
+
+	@Override
+	public void enterConstDeclaration(JavaParser.ConstDeclarationContext ctx) {
+		super.enterConstDeclaration(ctx);
+		context.addStmt();
+	}
+
+	@Override
+	public void enterLocalVariableDeclaration(JavaParser.LocalVariableDeclarationContext ctx) {
+		super.enterLocalVariableDeclaration(ctx);
+		context.addStmt();
+	}
+
+	@Override
+	public void enterStatement(JavaParser.StatementContext ctx) {
+		super.enterStatement(ctx);
+		context.addStmt();
+	}
+
+	@Override
+	public void enterResourceSpecification(JavaParser.ResourceSpecificationContext ctx) {
+		super.enterResourceSpecification(ctx);
+		context.addStmt();
+	}
+
+	@Override
+	public void enterBlock(JavaParser.BlockContext ctx) {
+		super.enterBlock(ctx);
+		context.addStmt();
+	}
 }

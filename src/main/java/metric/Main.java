@@ -23,8 +23,12 @@ SOFTWARE.
 */
 
 package metric;
+//test1
 
-import metric.extractor.FileParser;
+import depends.extractor.java.LexerEventCenter;
+import metric.extractor.AbstractLangProcessor; //test2
+import metric.extractor.LangProcessorRegistration;
+import metric.extractor.java.MetricContext;
 import metric.util.FileTraversal;
 import metric.util.FileUtil;
 import org.codehaus.plexus.util.StringUtils;
@@ -32,20 +36,20 @@ import picocli.CommandLine;
 import picocli.CommandLine.PicocliException;
 
 import java.io.File;
-import java.io.IOException;
+import java.util.Optional;
 
 public class Main {
-
+	MetricContext context;
 	public static void main(String[] args) {
 		try {
-			LangRegister langRegister = new LangRegister();
-			langRegister.register();
-			MetricCommand app = CommandLine.populateCommand(new MetricCommand(), args);
-			if (app.help) {
+			new LangRegister();
+			MetricCommand params = CommandLine.populateCommand(new MetricCommand(), args);
+			if (params.help) {
 				CommandLine.usage(new MetricCommand(), System.out);
 				System.exit(0);
 			}
-			executeCommand(app);
+			Main main = new Main();
+			main.executeCommand(params);
 		} catch (Exception e) {
 			if (e instanceof PicocliException) {
 				CommandLine.usage(new MetricCommand(), System.out);
@@ -60,24 +64,25 @@ public class Main {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static void executeCommand(MetricCommand app) throws ParameterException {
-		String inputDir = app.getSrc();
-		String outputName = app.getOutputName();
-		String outputDir = app.getOutputDir();
-		String[] outputFormat = app.getFormat();
+	private void executeCommand(MetricCommand parameters) throws ParameterException {
+		String inputDir = parameters.getSrc();
+		String outputName = parameters.getOutputName();
+		String outputDir = parameters.getOutputDir();
+		String[] outputFormat = parameters.getFormat();
 
 		inputDir = FileUtil.uniqFilePath(inputDir);
 		long startTime = System.currentTimeMillis();
-
 		parseAllFiles(inputDir);
-
+		context.dump();
 		long endTime = System.currentTimeMillis();
 		System.out.println("Consumed time: " + (float) ((endTime - startTime) / 1000.00) + " s,  or "
 				+ (float) ((endTime - startTime) / 60000.00) + " min.");
 	}
 
 
-	private static final void parseAllFiles(String inputSrcPath) {
+	public final MetricContext parseAllFiles(String inputSrcPath) {
+		context = new MetricContext();
+		LexerEventCenter.getInstance().addObserver(context);
 		System.out.println("Start parsing files...");
 		FileTraversal fileTransversal = new FileTraversal(new FileTraversal.IFileVisitor() {
 			@Override
@@ -90,11 +95,16 @@ public class Main {
 		});
 		fileTransversal.travers(inputSrcPath);
 		System.out.println("all files procceed successfully...");
-
+		return context;
 	}
 
-	protected static void parseFile(String fileFullPath) {
+	protected void parseFile(String fileFullPath) {
+		String extension = FileUtil.getExtension(fileFullPath);
+		Optional<AbstractLangProcessor> processor = LangProcessorRegistration.getRegistry().getLangOf(extension);
+		processor.ifPresent(p->{
 			System.out.println("parsing " + fileFullPath + "...");
+			p.process(fileFullPath,context);});
+
 	}
 
 

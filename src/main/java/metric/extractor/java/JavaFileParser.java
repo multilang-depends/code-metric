@@ -28,6 +28,7 @@ import java.io.IOException;
 
 import depends.extractor.java.JavaLexer;
 import depends.extractor.java.JavaParser;
+import depends.extractor.java.LexerEventCenter;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -41,21 +42,24 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 
 public class JavaFileParser implements metric.extractor.FileParser{
+	private final MetricContext context;
 	private String fileFullPath;
-	public JavaFileParser(String fileFullPath) {
+	public JavaFileParser(String fileFullPath, MetricContext context) {
         this.fileFullPath = fileFullPath;
+        this.context =context;
 	}
 
 	@Override
 	public void parse() throws IOException {
-        CharStream input = CharStreams.fromFileName(fileFullPath);
-        Lexer lexer = new JavaLexer(input);
+		LexerEventCenter.getInstance().notifyNewFile(fileFullPath);
+		CharStream input = CharStreams.fromFileName(fileFullPath);
+		JavaLexer lexer = new JavaLexer(input);
         lexer.setInterpreter(new LexerATNSimulator(lexer, lexer.getATN(), lexer.getInterpreter().decisionToDFA, new PredictionContextCache()));
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         JavaParser parser = new JavaParser(tokens);
         ParserATNSimulator interpreter = new ParserATNSimulator(parser, parser.getATN(), parser.getInterpreter().decisionToDFA, new PredictionContextCache());
         parser.setInterpreter(interpreter);
-        JavaListener bridge = new JavaListener(fileFullPath);
+        JavaListener bridge = new JavaListener(fileFullPath,context);
 	    ParseTreeWalker walker = new ParseTreeWalker();
 	    try {
 	    	walker.walk(bridge, parser.compilationUnit());
@@ -65,6 +69,8 @@ public class JavaFileParser implements metric.extractor.FileParser{
 	    	System.err.println("error encountered during parse..." );
 	    	e.printStackTrace();
 	    }
+	    lexer.foundNewLine();
+	    LexerEventCenter.getInstance().notifyDoneFile(fileFullPath);
 	    
     }
 	

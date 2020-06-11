@@ -61,6 +61,10 @@ public class FileTraversal {
 	}
 
 	public void travers(File root) {
+		if (!root.isDirectory()){
+			invokeVisitor(root);
+			return;
+		}
 		File[] files = root.listFiles();
 		if (files == null)
 			return;

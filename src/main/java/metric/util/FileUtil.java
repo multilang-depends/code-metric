@@ -24,6 +24,8 @@ SOFTWARE.
 
 package metric.util;
 
+import org.apache.commons.io.FilenameUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Stack;
@@ -77,4 +79,8 @@ public class FileUtil {
 		}
 		return sb.toString();
 	}
+
+    public static String getExtension(String path) {
+		return FilenameUtils.getExtension(path);
+    }
 }

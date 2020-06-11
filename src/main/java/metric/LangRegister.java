@@ -34,10 +34,7 @@ public class LangRegister {
 		add (new metric.extractor.java.JavaProcessor());
 	}
 	
-	public void register() {
 
-	}
-	
 	private void add(AbstractLangProcessor langProcessor) {
 		LangProcessorRegistration.getRegistry().register(langProcessor);
 	}

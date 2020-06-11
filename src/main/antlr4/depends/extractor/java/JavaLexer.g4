@@ -29,6 +29,9 @@
 
 lexer grammar JavaLexer;
 
+
+options { superClass=depends.extractor.java.JavaLexerBase; }
+
 // Keywords
 
 ABSTRACT:           'abstract';
@@ -166,9 +169,10 @@ ELLIPSIS:           '...';
 
 // Whitespace and comments
 
-WS:                 [ \t\r\n\u000C]+ -> channel(HIDDEN);
-COMMENT:            '/*' .*? '*/'    -> channel(HIDDEN);
-LINE_COMMENT:       '//' ~[\r\n]*    -> channel(HIDDEN);
+WS:                 [ \t\u000C]+                      -> channel(HIDDEN);
+LINE:               [\r\n]           {foundNewLine();} -> channel(HIDDEN);
+COMMENT:            '/*' .*? '*/'    {foundBlockComment();}-> channel(HIDDEN);
+LINE_COMMENT:       '//' ~[\r\n]*    {foundLineComment();}-> channel(HIDDEN);
 
 // Identifiers
 

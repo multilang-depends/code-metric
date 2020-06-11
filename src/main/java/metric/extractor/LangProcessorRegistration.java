@@ -27,20 +27,30 @@ package metric.extractor;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Optional;
 
 /* Registration of the lang processors. 
  * */
 public class LangProcessorRegistration {
 	private static LangProcessorRegistration inst = new LangProcessorRegistration();
 	public HashMap<String, AbstractLangProcessor> langProcessors = new HashMap<>();
+	public HashMap<String, AbstractLangProcessor> extensionLangProcessors = new HashMap<>();
 	public static LangProcessorRegistration getRegistry() {
 		return inst;
 	}
+
+	public Optional<AbstractLangProcessor> getLangOf(String extension) {
+		return Optional.ofNullable(extensionLangProcessors.get(extension));
+	}
+
 	public AbstractLangProcessor getProcessorOf(String lang) {
 		return langProcessors.get(lang);
 	}
 	public void register(AbstractLangProcessor processor) {
 		langProcessors.put(processor.supportedLanguage(), processor);
+		for (String ext:processor.fileSuffixes()){
+			extensionLangProcessors.put(ext,processor);
+		}
 	}
 	public Collection<String> getLangs() {
 		ArrayList<String> langs = new ArrayList<>();

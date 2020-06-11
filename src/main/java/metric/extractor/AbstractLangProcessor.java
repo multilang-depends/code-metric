@@ -24,55 +24,21 @@ SOFTWARE.
 
 package metric.extractor;
 
+import metric.extractor.java.MetricContext;
 import metric.util.FileTraversal;
 import metric.util.FileUtil;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 abstract public class AbstractLangProcessor {
 
-
-	private String inputSrcPath;
-
-	private final void parseAllFiles() {
-		System.out.println("Start parsing files...");
-		Set<String> phase2Files = new HashSet<>();
-		FileTraversal fileTransversal = new FileTraversal(new FileTraversal.IFileVisitor() {
-			@Override
-			public void visit(File file) {
-				String fileFullPath = file.getAbsolutePath();
-				fileFullPath = FileUtil.uniqFilePath(fileFullPath);
-					parseFile(fileFullPath);
-			}
-
-		});
-		fileTransversal.extensionFilter(this.fileSuffixes());
-		fileTransversal.travers(this.inputSrcPath);
-		System.out.println("all files procceed successfully...");
-
-	}
-
-	protected void parseFile(String fileFullPath) {
-		FileParser fileParser = createFileParser(fileFullPath);
-		try {
-			System.out.println("parsing " + fileFullPath + "...");
-			fileParser.parse();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			System.err.println("error occoured during parse file " + fileFullPath);
-			e.printStackTrace();
-		}
-	}
-
-
-	protected abstract String fileSuffixes();
-
-
-	protected abstract FileParser createFileParser(String fileFullPath);
+	protected abstract List<String> fileSuffixes();
 
 	public abstract String supportedLanguage();
+
+	public abstract void process(String fileFullPath, MetricContext context);
 }

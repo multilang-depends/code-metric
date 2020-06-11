@@ -81,6 +81,13 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.12</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
 			<groupId>eclipse-photon</groupId>
 			<artifactId>org.eclipse.core.resources</artifactId>
 			<version>3.13.500.v20190819-0800</version>
