@@ -2,12 +2,11 @@ package metric.output;
 
 import metric.measure.MetricContext;
 import metric.measure.MetricData;
-import metric.output.OutputFormatter;
+import multilang.depends.util.file.path.FilenameWritter;
+import multilang.depends.util.file.strip.ILeadingNameStrippper;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collection;
 
 public class CsvOutputFormatter extends OutputFormatter {
 
@@ -16,11 +15,11 @@ public class CsvOutputFormatter extends OutputFormatter {
     }
 
     @Override
-    public void output() {
+    public void output(FilenameWritter filenameWritter, ILeadingNameStrippper strippper) {
         try {
             PrintWriter writer = new PrintWriter(composeFilename()+".csv");
             for (MetricData data:context.getAllEntries()){
-                writer.println(data.getPath() + ", " + data.getLoc());
+                writer.println(filenameWritter.reWrite(strippper.stripFilename(data.getPath())) + ", " + data.getLoc());
             }
             writer.close();
         } catch (FileNotFoundException e) {

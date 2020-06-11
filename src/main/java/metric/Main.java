@@ -32,7 +32,12 @@ import metric.parser.LangProcessorRegistration;
 import metric.measure.MetricContext;
 import multilang.depends.util.file.FileTraversal;
 import multilang.depends.util.file.FileUtil;
+import multilang.depends.util.file.path.*;
+import multilang.depends.util.file.strip.EmptyLeadingNameStripper;
+import multilang.depends.util.file.strip.ILeadingNameStrippper;
+import multilang.depends.util.file.strip.LeadingNameStripper;
 import org.apache.commons.io.FilenameUtils;
+import org.codehaus.plexus.util.StringUtils;
 import picocli.CommandLine;
 import picocli.CommandLine.PicocliException;
 
@@ -75,10 +80,36 @@ public class Main {
 		long startTime = System.currentTimeMillis();
 		parseAllFiles(inputDir);
 		OutputFormatter outputFormatter = new CsvOutputFormatter(context, parameters.getOutputDir(),parameters.getOutputName());
-		outputFormatter.output();
+		outputFormatter.output(getFileNameWritter(parameters),getLeadingNameStripper(parameters, inputDir));
 		long endTime = System.currentTimeMillis();
 		System.out.println("Consumed time: " + (float) ((endTime - startTime) / 1000.00) + " s,  or "
 				+ (float) ((endTime - startTime) / 60000.00) + " min.");
+	}
+
+	private ILeadingNameStrippper getLeadingNameStripper(MetricCommand parameters, String inputDir) {
+		ILeadingNameStrippper strippper = new EmptyLeadingNameStripper();
+		if (parameters.isStripLeadingPath())
+			strippper = new LeadingNameStripper(parameters.isStripLeadingPath(),inputDir,parameters.getStrippedPaths());
+		return strippper;
+	}
+
+	private FilenameWritter getFileNameWritter(MetricCommand parameters) throws ParameterException {
+		FilenameWritter filenameWritter = new EmptyFilenameWritter();
+		if (!StringUtils.isEmpty(parameters.getNamePathPattern())) {
+			if (parameters.getNamePathPattern().equals("dot")||
+					parameters.getNamePathPattern().equals(".")) {
+				filenameWritter = new DotPathFilenameWritter();
+			}else if (parameters.getNamePathPattern().equals("unix")||
+					parameters.getNamePathPattern().equals("/")) {
+				filenameWritter = new UnixPathFilenameWritter();
+			}else if (parameters.getNamePathPattern().equals("windows")||
+					parameters.getNamePathPattern().equals("\\")) {
+				filenameWritter = new WindowsPathFilenameWritter();
+			}else{
+				throw new ParameterException("Unknown name pattern paremater:" + parameters.getNamePathPattern());
+			}
+		}
+		return filenameWritter;
 	}
 
 

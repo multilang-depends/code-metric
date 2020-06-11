@@ -1,6 +1,8 @@
 package metric.output;
 
 import metric.measure.MetricContext;
+import multilang.depends.util.file.path.FilenameWritter;
+import multilang.depends.util.file.strip.ILeadingNameStrippper;
 
 import java.io.File;
 
@@ -17,5 +19,5 @@ public abstract  class OutputFormatter {
     protected String composeFilename() {
         return outputDir+ File.separator+outputName;
     }
-    public abstract void output( );
+    public abstract void output(FilenameWritter filenameWritter, ILeadingNameStrippper strippper);
 }
