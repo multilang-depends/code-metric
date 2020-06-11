@@ -25,6 +25,7 @@ SOFTWARE.
 package metric;
 
 import lexer.event.LexerEventCenter;
+import metric.output.OutputFormatter;
 import metric.parser.AbstractLangProcessor;
 import metric.parser.LangProcessorRegistration;
 import metric.measure.MetricContext;
@@ -71,7 +72,8 @@ public class Main {
 		inputDir = FileUtil.uniqFilePath(inputDir);
 		long startTime = System.currentTimeMillis();
 		parseAllFiles(inputDir);
-		context.dump();
+		OutputFormatter outputFormatter = new CsvOutputFormatter(context, parameters.getOutputDir(),parameters.getOutputName());
+		outputFormatter.output();
 		long endTime = System.currentTimeMillis();
 		System.out.println("Consumed time: " + (float) ((endTime - startTime) / 1000.00) + " s,  or "
 				+ (float) ((endTime - startTime) / 60000.00) + " min.");

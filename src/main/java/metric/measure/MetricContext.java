@@ -43,4 +43,8 @@ public class MetricContext implements Observer {
     public MetricData getFile(String file) {
         return dataList.get(file);
     }
+
+    public Collection<MetricData> getAllEntries() {
+        return dataList.values();
+    }
 }
