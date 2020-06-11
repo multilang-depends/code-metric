@@ -33,5 +33,11 @@ public abstract class JavaLexerBase extends Lexer {
         LexerEventCenter.getInstance().notifyCommentLine(lineNumber,text);
     }
     public void foundLineComment(){
+        String text = this.getText();
+        if (this._tokenStartCharIndex>start){
+            this.code += input.getText(new Interval(start, this._tokenStartCharIndex - 1));
+        }
+        start = this.getCharIndex();
+        LexerEventCenter.getInstance().notifyCommentLine(lineNumber,text);
     }
 }
