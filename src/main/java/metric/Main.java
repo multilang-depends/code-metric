@@ -74,7 +74,6 @@ public class Main {
 		String inputDir = parameters.getSrc();
 		String outputName = parameters.getOutputName();
 		String outputDir = parameters.getOutputDir();
-		String[] outputFormat = parameters.getFormat();
 
 		inputDir = FileUtil.uniqFilePath(inputDir);
 		long startTime = System.currentTimeMillis();

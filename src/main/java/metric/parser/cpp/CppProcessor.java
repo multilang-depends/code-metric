@@ -9,7 +9,7 @@ import java.util.List;
 public class CppProcessor extends AbstractLangProcessor {
     @Override
     protected List<String> fileSuffixes() {
-        return Arrays.asList("cpp");
+        return Arrays.asList("cpp","c","h","cc","hh","hpp","cxx","c++","hxx");
     }
 
     @Override

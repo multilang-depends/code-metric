@@ -31,7 +31,6 @@ public class LangRegister {
 	public LangRegister() {
 		add (new metric.parser.java.JavaProcessor());
 		add (new metric.parser.python.PythonProcessor());
-		add (new metric.parser.c.CProcessor());
 		add (new metric.parser.cpp.CppProcessor());
 
 	}
