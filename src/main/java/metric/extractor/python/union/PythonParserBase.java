@@ -1,4 +1,4 @@
-package depends.extractor.python.union;
+package metric.extractor.python.union;
 
 import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.TokenStream;

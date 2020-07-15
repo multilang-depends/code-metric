@@ -25,8 +25,7 @@ SOFTWARE.
 package metric.parser.c;
 
 
-import depends.extractor.c.CLexer;
-import depends.extractor.c.CParser;
+import metric.extractor.c.CLexer;
 import lexer.event.LexerEventCenter;
 import metric.measure.MetricContext;
 import org.antlr.v4.runtime.CharStream;
@@ -34,9 +33,7 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.atn.LexerATNSimulator;
-import org.antlr.v4.runtime.atn.ParserATNSimulator;
 import org.antlr.v4.runtime.atn.PredictionContextCache;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import java.io.IOException;
 

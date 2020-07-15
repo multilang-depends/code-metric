@@ -1,4 +1,4 @@
-package depends.extractor.python.union;
+package metric.extractor.python.union;
 
 public enum PythonVersion {
     Autodetect(0),

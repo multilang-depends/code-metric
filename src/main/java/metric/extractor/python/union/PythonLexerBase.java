@@ -1,12 +1,11 @@
-package depends.extractor.python.union;
+package metric.extractor.python.union;
 
-import depends.extractor.LexerBase;
+import metric.extractor.LexerBase;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonToken;
-import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.Token;
 
-import depends.extractor.python.PythonLexer;
+import metric.extractor.python.union.PythonLexer;
 
 import java.util.Stack;
 

@@ -1,4 +1,4 @@
-package depends.extractor;
+package metric.extractor;
 
 import lexer.event.LexerEventCenter;
 import org.antlr.v4.runtime.CharStream;

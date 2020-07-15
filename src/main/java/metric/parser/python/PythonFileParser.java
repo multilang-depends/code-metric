@@ -24,8 +24,8 @@ SOFTWARE.
 
 package metric.parser.python;
 
-import depends.extractor.python.PythonLexer;
-import depends.extractor.python.PythonParser;
+import metric.extractor.python.union.PythonLexer;
+import metric.extractor.python.union.PythonParser;
 import lexer.event.LexerEventCenter;
 import metric.measure.MetricContext;
 import org.antlr.v4.runtime.CharStream;

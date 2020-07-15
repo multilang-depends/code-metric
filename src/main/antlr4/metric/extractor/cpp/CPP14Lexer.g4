@@ -23,7 +23,7 @@
  ******************************************************************************/
 lexer grammar CPP14Lexer;
 /*Basic concepts*/
-options { superClass=depends.extractor.LexerBase; }
+options { superClass=metric.extractor.LexerBase; }
 
 
 /*Lexer*/

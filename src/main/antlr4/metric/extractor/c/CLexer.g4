@@ -29,7 +29,7 @@
 /** C 2011 grammar built from the C11 Spec */
 lexer grammar CLexer;
 
-options { superClass=depends.extractor.LexerBase; }
+options { superClass=metric.extractor.LexerBase; }
 
 UNDERLINE_EXTENSION: '__extension__';
 UNDERLINE_BUILDIN_VAR_ARG: '__builtin_va_arg';

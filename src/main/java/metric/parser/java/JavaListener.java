@@ -24,8 +24,8 @@ SOFTWARE.
 
 package metric.parser.java;
 
-import depends.extractor.java.JavaParser;
-import depends.extractor.java.JavaParserBaseListener;
+import metric.extractor.java.JavaParser;
+import metric.extractor.java.JavaParserBaseListener;
 import metric.measure.MetricContext;
 
 public class JavaListener extends JavaParserBaseListener {

@@ -24,7 +24,7 @@ SOFTWARE.
 
 package metric.parser.c;
 
-import depends.extractor.c.CParserBaseListener;
+import metric.extractor.c.CParserBaseListener;
 import metric.measure.MetricContext;
 
 public class CListener extends CParserBaseListener {

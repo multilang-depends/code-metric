@@ -30,7 +30,7 @@
 lexer grammar JavaLexer;
 
 
-options { superClass=depends.extractor.java.JavaLexerBase; }
+options { superClass=JavaLexerBase; }
 
 // Keywords
 

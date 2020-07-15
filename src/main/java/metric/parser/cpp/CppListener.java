@@ -24,7 +24,7 @@ SOFTWARE.
 
 package metric.parser.cpp;
 
-import depends.extractor.cpp.CPP14ParserBaseListener;
+import metric.extractor.cpp.CPP14ParserBaseListener;
 import metric.measure.MetricContext;
 
 public class CppListener extends CPP14ParserBaseListener {

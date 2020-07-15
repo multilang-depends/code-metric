@@ -26,8 +26,8 @@ package metric.parser.java;
 
 import java.io.IOException;
 
-import depends.extractor.java.JavaLexer;
-import depends.extractor.java.JavaParser;
+import metric.extractor.java.JavaLexer;
+import metric.extractor.java.JavaParser;
 import lexer.event.LexerEventCenter;
 import metric.measure.MetricContext;
 import org.antlr.v4.runtime.CharStream;
