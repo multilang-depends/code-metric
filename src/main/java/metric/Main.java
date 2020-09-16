@@ -25,6 +25,7 @@ SOFTWARE.
 package metric;
 
 import lexer.event.LexerEventCenter;
+import metric.measure.NodeContext;
 import metric.output.CsvOutputFormatter;
 import metric.output.OutputFormatter;
 import metric.parser.AbstractLangProcessor;
@@ -77,7 +78,7 @@ public class Main {
 
 		inputDir = FileUtil.uniqFilePath(inputDir);
 		long startTime = System.currentTimeMillis();
-		parseAllFiles(inputDir);
+		parseAllFiles(inputDir, parameters.getOutputName());
 		OutputFormatter outputFormatter = new CsvOutputFormatter(context, parameters.getOutputDir(),parameters.getOutputName());
 		outputFormatter.output(getFileNameWritter(parameters),getLeadingNameStripper(parameters, inputDir));
 		long endTime = System.currentTimeMillis();
@@ -112,9 +113,10 @@ public class Main {
 	}
 
 
-	public final MetricContext parseAllFiles(String inputSrcPath) {
+	public final MetricContext parseAllFiles(String inputSrcPath, String projectName) {
 		context = new MetricContext();
 		LexerEventCenter.getInstance().addObserver(context);
+		LexerEventCenter.getInstance().addObserver(new NodeContext(projectName,inputSrcPath));
 		System.out.println("Start parsing files...");
 		FileTraversal fileTransversal = new FileTraversal(new FileTraversal.IFileVisitor() {
 			@Override
