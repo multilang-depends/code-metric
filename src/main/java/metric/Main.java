@@ -115,8 +115,9 @@ public class Main {
 
 	public final MetricContext parseAllFiles(String inputSrcPath, String projectName) {
 		context = new MetricContext();
+		NodeContext nodeContext = new NodeContext(projectName, inputSrcPath);
 		LexerEventCenter.getInstance().addObserver(context);
-		LexerEventCenter.getInstance().addObserver(new NodeContext(projectName,inputSrcPath));
+		LexerEventCenter.getInstance().addObserver(nodeContext);
 		System.out.println("Start parsing files...");
 		FileTraversal fileTransversal = new FileTraversal(new FileTraversal.IFileVisitor() {
 			@Override
@@ -128,6 +129,7 @@ public class Main {
 
 		});
 		fileTransversal.travers(inputSrcPath);
+		nodeContext.dump();
 		System.out.println("all files procceed successfully...");
 		return context;
 	}

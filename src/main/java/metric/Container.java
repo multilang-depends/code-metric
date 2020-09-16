@@ -20,6 +20,7 @@ public class Container {
     private String type; //directory, file, class, method, etc
     List<Container> children = new ArrayList<>();
 
+    List<String> words = new ArrayList<>();
     @Override
     public String toString() {
         return "Container{" +
@@ -28,6 +29,7 @@ public class Container {
                 ", parentId=" + parentId +
                 ", name='" + name + '\'' +
                 ", type='" + type + '\'' +
+                ", words='" + words + '\'' +
                 '}';
     }
 }

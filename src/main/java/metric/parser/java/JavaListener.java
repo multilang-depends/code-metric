@@ -24,6 +24,8 @@ SOFTWARE.
 
 package metric.parser.java;
 
+import lexer.event.ClassOrIntefaceDeclareEvent;
+import lexer.event.LexerEventCenter;
 import metric.extractor.java.JavaParser;
 import metric.extractor.java.JavaParserBaseListener;
 import metric.measure.MetricContext;
@@ -38,56 +40,32 @@ public class JavaListener extends JavaParserBaseListener {
 	}
 
 	@Override
-	public void enterPackageDeclaration(JavaParser.PackageDeclarationContext ctx) {
-		super.enterPackageDeclaration(ctx);
-		context.addStmt();
+	public void enterClassDeclaration(JavaParser.ClassDeclarationContext ctx) {
+		super.enterClassDeclaration(ctx);
+		LexerEventCenter.getInstance().notifyEvent(new ClassOrIntefaceDeclareEvent(ctx.IDENTIFIER().getText()));
 	}
 
 	@Override
-	public void enterImportDeclaration(JavaParser.ImportDeclarationContext ctx) {
-		super.enterImportDeclaration(ctx);
-		context.addStmt();
+	public void enterInterfaceDeclaration(JavaParser.InterfaceDeclarationContext ctx) {
+		LexerEventCenter.getInstance().notifyEvent(new ClassOrIntefaceDeclareEvent(ctx.IDENTIFIER().getText()));
+		super.enterInterfaceDeclaration(ctx);
 	}
 
 	@Override
-	public void enterFieldDeclaration(JavaParser.FieldDeclarationContext ctx) {
-		super.enterFieldDeclaration(ctx);
-		context.addStmt();
+	public void enterAnnotationTypeDeclaration(JavaParser.AnnotationTypeDeclarationContext ctx) {
+		LexerEventCenter.getInstance().notifyEvent(new ClassOrIntefaceDeclareEvent(ctx.IDENTIFIER().getText()));
+		super.enterAnnotationTypeDeclaration(ctx);
 	}
 
 	@Override
-	public void enterAnnotationTypeElementRest(JavaParser.AnnotationTypeElementRestContext ctx) {
-		super.enterAnnotationTypeElementRest(ctx);
-		context.addStmt();
+	public void enterEnumDeclaration(JavaParser.EnumDeclarationContext ctx) {
+		LexerEventCenter.getInstance().notifyEvent(new ClassOrIntefaceDeclareEvent(ctx.IDENTIFIER().getText()));
+		super.enterEnumDeclaration(ctx);
 	}
 
 	@Override
-	public void enterConstDeclaration(JavaParser.ConstDeclarationContext ctx) {
-		super.enterConstDeclaration(ctx);
-		context.addStmt();
-	}
-
-	@Override
-	public void enterLocalVariableDeclaration(JavaParser.LocalVariableDeclarationContext ctx) {
-		super.enterLocalVariableDeclaration(ctx);
-		context.addStmt();
-	}
-
-	@Override
-	public void enterStatement(JavaParser.StatementContext ctx) {
-		super.enterStatement(ctx);
-		context.addStmt();
-	}
-
-	@Override
-	public void enterResourceSpecification(JavaParser.ResourceSpecificationContext ctx) {
-		super.enterResourceSpecification(ctx);
-		context.addStmt();
-	}
-
-	@Override
-	public void enterBlock(JavaParser.BlockContext ctx) {
-		super.enterBlock(ctx);
-		context.addStmt();
+	public void enterMethodDeclaration(JavaParser.MethodDeclarationContext ctx) {
+		LexerEventCenter.getInstance().notifyEvent(new ClassOrIntefaceDeclareEvent(ctx.IDENTIFIER().getText()));
+		super.enterMethodDeclaration(ctx);
 	}
 }

@@ -1,5 +1,7 @@
 package metric.measure;
 
+import com.github.gangz.source.text.IdentifierSplitter;
+import lexer.event.ClassOrIntefaceDeclareEvent;
 import lexer.event.NewFileEvent;
 import metric.Container;
 import multilang.depends.util.file.path.DotPathFilenameWritter;
@@ -14,6 +16,7 @@ public class NodeContext implements Observer {
     DotPathFilenameWritter writer = new DotPathFilenameWritter();
     int nextId = 0;
     Container currentContainer= null;
+    IdentifierSplitter splitter = new IdentifierSplitter();
     public NodeContext(String projectName,String leadingPath){
         containerMap = new HashMap<>();
         this.projectName = projectName;
@@ -27,6 +30,14 @@ public class NodeContext implements Observer {
             String fileName = newFileEvent.getFileFullPath();
             String lang = newFileEvent.getLang();
             addToContainer(fileName);
+        }
+        if (arg instanceof ClassOrIntefaceDeclareEvent){
+            ClassOrIntefaceDeclareEvent event = (ClassOrIntefaceDeclareEvent) arg;
+            Container container = new Container(nextId++,this.projectName,currentContainer.getName()+"."+event.getName(),"CLASS");
+            container.setParentId(currentContainer.getId());
+            currentContainer.getChildren().add(container);
+            containerMap.put(container.getName(), container);
+            container.getWords().addAll(splitter.split(event.getName()));
         }
     }
 
@@ -61,6 +72,12 @@ public class NodeContext implements Observer {
                 sb.append(".");
         }
         return sb.toString();
+    }
+
+    public void dump() {
+        this.containerMap.values().forEach(v->{
+            System.out.println(v);
+        });
     }
 }
 

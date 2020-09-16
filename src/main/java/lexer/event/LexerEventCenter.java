@@ -29,4 +29,9 @@ public class LexerEventCenter extends Observable {
         this.setChanged();
         this.notifyObservers(new NewBlockCommentEvent(lineNumber,comment));
     }
+
+    public void notifyEvent(CodeElementEvent event) {
+        this.setChanged();
+        this.notifyObservers(event);
+    }
 }
