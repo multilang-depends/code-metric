@@ -35,6 +35,7 @@ public class NodeContext implements Observer {
             ClassOrIntefaceDeclareEvent event = (ClassOrIntefaceDeclareEvent) arg;
             Container container = new Container(nextId++,this.projectName,currentContainer.getName()+"."+event.getName(),"CLASS");
             container.setParentId(currentContainer.getId());
+            container.setShortName(event.getName());
             currentContainer.getChildren().add(container);
             containerMap.put(container.getName(), container);
             container.getWords().addAll(splitter.split(event.getName()));
@@ -52,6 +53,7 @@ public class NodeContext implements Observer {
             String path = buildFullPath(paths, i);
             if (!containerMap.containsKey(path)){
                 Container container = new Container(nextId++,this.projectName,path,type);
+                container.setShortName(paths[i]);
                 int parentId = (i==0)?-1:containerMap.get(buildFullPath(paths,i-1)).getId();
                 if (parentId>=0){
                     containerMap.get(buildFullPath(paths,i-1)).getChildren().add(container);
@@ -78,6 +80,10 @@ public class NodeContext implements Observer {
         this.containerMap.values().forEach(v->{
             System.out.println(v);
         });
+    }
+
+    public Container getRoot() {
+        return containerMap.get(projectName);
     }
 }
 

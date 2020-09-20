@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<BorderPane fx:controller="ui.controllers.Controller" xmlns:fx="http://javafx.com/fxml">
+    <top><Button></Button></top>
+    <left>
+        <TreeView fx:id="tree" minWidth="500" ></TreeView>
+    </left>
+    <center>
+        <TableView fx:id="tableView" layoutX="35.0" layoutY="28.0" prefHeight="200.0" prefWidth="227.0">
+            <columns>
+                <TableColumn prefWidth="75.0" text="UserId" fx:id="UserId" />
+                <TableColumn prefWidth="75.0" text="UserName" fx:id="UserName" />
+                <TableColumn prefWidth="75.0" text="Active" fx:id="Active" />
+            </columns>
+        </TableView>
+    </center>
+</BorderPane>

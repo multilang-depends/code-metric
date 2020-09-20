@@ -20,6 +20,8 @@ public class MetricCommand {
 	private String[] strippedPaths = new String[]{};
 	@Option(names = {"-p", "--namepattern"},  description = "The name path pattern.[dot(.), unix(/) or windows(\\)")
     private String namePathPattern="";
+	@Option(names = {"--gui"},  description = "show GUI")
+	boolean gui = false;
 	@Option(names = {"-h","--help"}, usageHelp = true, description = "display this help and exit")
     boolean help;
 	public MetricCommand() {
@@ -58,4 +60,5 @@ public class MetricCommand {
 	public void setStrippedPaths(String[] strippedPaths) {
 		this.strippedPaths = strippedPaths;
 	}
+	public boolean showGUI(){return this.gui;}
 }

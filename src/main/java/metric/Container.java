@@ -17,6 +17,7 @@ public class Container {
     private String project;
     private int parentId;
     private String name;
+    private String shortName;
     private String type; //directory, file, class, method, etc
     List<Container> children = new ArrayList<>();
 

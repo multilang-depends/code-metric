@@ -41,12 +41,15 @@ import org.apache.commons.io.FilenameUtils;
 import org.codehaus.plexus.util.StringUtils;
 import picocli.CommandLine;
 import picocli.CommandLine.PicocliException;
+import ui.UIMain;
 
 import java.io.File;
 import java.util.Optional;
 
 public class Main {
 	MetricContext context;
+	private NodeContext nodeContext;
+
 	public static void main(String[] args) {
 		try {
 			new LangRegister();
@@ -84,6 +87,9 @@ public class Main {
 		long endTime = System.currentTimeMillis();
 		System.out.println("Consumed time: " + (float) ((endTime - startTime) / 1000.00) + " s,  or "
 				+ (float) ((endTime - startTime) / 60000.00) + " min.");
+		if (parameters.showGUI()){
+			UIMain.showGui(new String[]{},this.nodeContext);
+		}
 	}
 
 	private ILeadingNameStrippper getLeadingNameStripper(MetricCommand parameters, String inputDir) {
@@ -115,7 +121,7 @@ public class Main {
 
 	public final MetricContext parseAllFiles(String inputSrcPath, String projectName) {
 		context = new MetricContext();
-		NodeContext nodeContext = new NodeContext(projectName, inputSrcPath);
+		this.nodeContext = new NodeContext(projectName, inputSrcPath);
 		LexerEventCenter.getInstance().addObserver(context);
 		LexerEventCenter.getInstance().addObserver(nodeContext);
 		System.out.println("Start parsing files...");
