@@ -66,8 +66,8 @@ public class Controller {
                 if (node instanceof Text || (node instanceof TreeCell && ((TreeCell) node).getText() != null)) {
                     Container name = (Container) ((TreeItem)tree.getSelectionModel().getSelectedItem()).getValue();
                     data.clear();
+                    data.add(new MetricValue("TOTAL",new Long(name.getLineCount())));
                     for (Container child:name.getChildren()){
-                        System.out.println(child);
                         data.add(new MetricValue(child.getName(),new Long(child.getLineCount())));
                     }
                 }
