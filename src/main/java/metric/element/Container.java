@@ -1,4 +1,4 @@
-package metric;
+package metric.element;
 
 import lombok.Data;
 
@@ -6,31 +6,41 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class Container {
-    public Container(int id, String project, String name, String type){
+public abstract  class Container {
+    private int lineCount = 0;
+    List<String> words = new ArrayList<>();
+
+    public Container(int id, String project, String name){
         this.id = id;
         this.project = project;
         this.name = name;
-        this.type = type;
     }
     private int id;
     private String project;
     private int parentId;
     private String name;
     private String shortName;
-    private String type; //directory, file, class, method, etc
     List<Container> children = new ArrayList<>();
 
-    List<String> words = new ArrayList<>();
     @Override
     public String toString() {
+        return longName();
+    }
+
+    public String shortName() {
+        return this.getShortName();
+    }
+
+    public String longName() {
         return "Container{" +
                 "id=" + id +
                 ", project='" + project + '\'' +
                 ", parentId=" + parentId +
                 ", name='" + name + '\'' +
-                ", type='" + type + '\'' +
-                ", words='" + words + '\'' +
                 '}';
+    }
+
+    public void incrLoc() {
+        this.lineCount ++;
     }
 }

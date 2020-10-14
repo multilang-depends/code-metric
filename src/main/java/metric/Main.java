@@ -47,7 +47,7 @@ import java.io.File;
 import java.util.Optional;
 
 public class Main {
-	MetricContext context;
+	MetricContext metricContext;
 	private NodeContext nodeContext;
 
 	public static void main(String[] args) {
@@ -82,7 +82,7 @@ public class Main {
 		inputDir = FileUtil.uniqFilePath(inputDir);
 		long startTime = System.currentTimeMillis();
 		parseAllFiles(inputDir, parameters.getOutputName());
-		OutputFormatter outputFormatter = new CsvOutputFormatter(context, parameters.getOutputDir(),parameters.getOutputName());
+		OutputFormatter outputFormatter = new CsvOutputFormatter(metricContext, parameters.getOutputDir(),parameters.getOutputName());
 		outputFormatter.output(getFileNameWritter(parameters),getLeadingNameStripper(parameters, inputDir));
 		long endTime = System.currentTimeMillis();
 		System.out.println("Consumed time: " + (float) ((endTime - startTime) / 1000.00) + " s,  or "
@@ -120,9 +120,9 @@ public class Main {
 
 
 	public final MetricContext parseAllFiles(String inputSrcPath, String projectName) {
-		context = new MetricContext();
+		metricContext = new MetricContext();
 		this.nodeContext = new NodeContext(projectName, inputSrcPath);
-		LexerEventCenter.getInstance().addObserver(context);
+		LexerEventCenter.getInstance().addObserver(metricContext);
 		LexerEventCenter.getInstance().addObserver(nodeContext);
 		System.out.println("Start parsing files...");
 		FileTraversal fileTransversal = new FileTraversal(new FileTraversal.IFileVisitor() {
@@ -137,7 +137,7 @@ public class Main {
 		fileTransversal.travers(inputSrcPath);
 		nodeContext.dump();
 		System.out.println("all files procceed successfully...");
-		return context;
+		return metricContext;
 	}
 
 	protected void parseFile(String fileFullPath) {
@@ -145,7 +145,7 @@ public class Main {
 		Optional<AbstractLangProcessor> processor = LangProcessorRegistration.getRegistry().getLangOf(extension);
 		processor.ifPresent(p->{
 			System.out.println("parsing " + fileFullPath + "...");
-			p.process(fileFullPath,context);});
+			p.process(fileFullPath, metricContext);});
 
 	}
 

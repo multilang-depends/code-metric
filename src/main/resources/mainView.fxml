@@ -7,11 +7,10 @@
         <TreeView fx:id="tree" minWidth="500" ></TreeView>
     </left>
     <center>
-        <TableView fx:id="tableView" layoutX="35.0" layoutY="28.0" prefHeight="200.0" prefWidth="227.0">
+        <TableView fx:id="table" layoutX="35.0" layoutY="28.0" prefHeight="200.0" prefWidth="227.0">
             <columns>
-                <TableColumn prefWidth="75.0" text="UserId" fx:id="UserId" />
-                <TableColumn prefWidth="75.0" text="UserName" fx:id="UserName" />
-                <TableColumn prefWidth="75.0" text="Active" fx:id="Active" />
+                <TableColumn prefWidth="175.0" text="Name" />
+                <TableColumn prefWidth="75.0" text="Lines"/>
             </columns>
         </TableView>
     </center>

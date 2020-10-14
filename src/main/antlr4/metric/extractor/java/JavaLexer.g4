@@ -160,6 +160,7 @@ URSHIFT_ASSIGN:     '>>>=';
 // Java 8 tokens
 
 ARROW:              '->';
+
 COLONCOLON:         '::';
 
 // Additional symbols not defined in the lexical specification

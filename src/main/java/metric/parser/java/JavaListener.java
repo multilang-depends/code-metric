@@ -25,7 +25,9 @@ SOFTWARE.
 package metric.parser.java;
 
 import lexer.event.ClassOrIntefaceDeclareEvent;
+import lexer.event.LeaveLastContainerEvent;
 import lexer.event.LexerEventCenter;
+import lexer.event.MethodDeclareEvent;
 import metric.extractor.java.JavaParser;
 import metric.extractor.java.JavaParserBaseListener;
 import metric.measure.MetricContext;
@@ -42,30 +44,66 @@ public class JavaListener extends JavaParserBaseListener {
 	@Override
 	public void enterClassDeclaration(JavaParser.ClassDeclarationContext ctx) {
 		super.enterClassDeclaration(ctx);
-		LexerEventCenter.getInstance().notifyEvent(new ClassOrIntefaceDeclareEvent(ctx.IDENTIFIER().getText()));
+		LexerEventCenter.getInstance().notifyEvent(new ClassOrIntefaceDeclareEvent(ctx.IDENTIFIER().getText(),
+				ctx.start.getLine(),ctx.stop.getLine(),ctx.getText()));
+	}
+
+	@Override
+	public void exitClassDeclaration(JavaParser.ClassDeclarationContext ctx) {
+		super.exitClassDeclaration(ctx);
+		LexerEventCenter.getInstance().notifyEvent(new LeaveLastContainerEvent(ctx.IDENTIFIER().getText()));
 	}
 
 	@Override
 	public void enterInterfaceDeclaration(JavaParser.InterfaceDeclarationContext ctx) {
-		LexerEventCenter.getInstance().notifyEvent(new ClassOrIntefaceDeclareEvent(ctx.IDENTIFIER().getText()));
+		LexerEventCenter.getInstance().notifyEvent(new ClassOrIntefaceDeclareEvent(ctx.IDENTIFIER().getText(),
+				ctx.start.getLine(),ctx.stop.getLine(),ctx.getText()));
 		super.enterInterfaceDeclaration(ctx);
 	}
 
 	@Override
+	public void exitInterfaceDeclaration(JavaParser.InterfaceDeclarationContext ctx) {
+		super.exitInterfaceDeclaration(ctx);
+		LexerEventCenter.getInstance().notifyEvent(new LeaveLastContainerEvent(ctx.IDENTIFIER().getText()));
+	}
+
+	@Override
 	public void enterAnnotationTypeDeclaration(JavaParser.AnnotationTypeDeclarationContext ctx) {
-		LexerEventCenter.getInstance().notifyEvent(new ClassOrIntefaceDeclareEvent(ctx.IDENTIFIER().getText()));
+		LexerEventCenter.getInstance().notifyEvent(new ClassOrIntefaceDeclareEvent(ctx.IDENTIFIER().getText(),
+				ctx.start.getLine(),ctx.stop.getLine(),ctx.getText()));
 		super.enterAnnotationTypeDeclaration(ctx);
 	}
 
 	@Override
+	public void exitAnnotationTypeDeclaration(JavaParser.AnnotationTypeDeclarationContext ctx) {
+		LexerEventCenter.getInstance().notifyEvent(new LeaveLastContainerEvent(ctx.IDENTIFIER().getText()));
+		super.exitAnnotationTypeDeclaration(ctx);
+	}
+
+
+	@Override
 	public void enterEnumDeclaration(JavaParser.EnumDeclarationContext ctx) {
-		LexerEventCenter.getInstance().notifyEvent(new ClassOrIntefaceDeclareEvent(ctx.IDENTIFIER().getText()));
+		LexerEventCenter.getInstance().notifyEvent(new ClassOrIntefaceDeclareEvent(ctx.IDENTIFIER().getText(),
+				ctx.start.getLine(),ctx.stop.getLine(),ctx.getText()));
 		super.enterEnumDeclaration(ctx);
 	}
 
 	@Override
+	public void exitEnumDeclaration(JavaParser.EnumDeclarationContext ctx) {
+		LexerEventCenter.getInstance().notifyEvent(new LeaveLastContainerEvent(ctx.IDENTIFIER().getText()));
+		super.exitEnumDeclaration(ctx);
+	}
+
+	@Override
 	public void enterMethodDeclaration(JavaParser.MethodDeclarationContext ctx) {
-		LexerEventCenter.getInstance().notifyEvent(new ClassOrIntefaceDeclareEvent(ctx.IDENTIFIER().getText()));
+		LexerEventCenter.getInstance().notifyEvent(new MethodDeclareEvent(ctx.IDENTIFIER().getText(),
+				ctx.start.getLine(),ctx.stop.getLine(),ctx.getText()));
 		super.enterMethodDeclaration(ctx);
+	}
+
+	@Override
+	public void exitMethodDeclaration(JavaParser.MethodDeclarationContext ctx) {
+		LexerEventCenter.getInstance().notifyEvent(new LeaveLastContainerEvent(ctx.IDENTIFIER().getText()));
+		super.exitMethodDeclaration(ctx);
 	}
 }

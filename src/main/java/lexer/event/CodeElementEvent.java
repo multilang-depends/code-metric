@@ -1,4 +1,4 @@
 package lexer.event;
 
-public class CodeElementEvent {
+public abstract class CodeElementEvent {
 }
