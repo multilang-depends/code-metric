@@ -63,6 +63,7 @@ public class NodeContext implements Observer {
             containers.pop();
         }
         if (arg instanceof DoneFileEvent){
+            containers.get(0).setLineCount(computeLines(0,lineMarks.size()));
             containers.clear();
         }
     }
