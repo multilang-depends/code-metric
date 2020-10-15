@@ -24,10 +24,7 @@ SOFTWARE.
 
 package metric.parser.java;
 
-import lexer.event.ClassOrIntefaceDeclareEvent;
-import lexer.event.LeaveLastContainerEvent;
-import lexer.event.LexerEventCenter;
-import lexer.event.MethodDeclareEvent;
+import lexer.event.*;
 import metric.extractor.java.JavaParser;
 import metric.extractor.java.JavaParserBaseListener;
 import metric.measure.MetricContext;
@@ -35,10 +32,9 @@ import metric.measure.MetricContext;
 public class JavaListener extends JavaParserBaseListener {
 
 
-	private MetricContext context;
 
 	public JavaListener(String fileFullPath, MetricContext context) {
-		this.context = context;
+
 	}
 
 	@Override
@@ -106,4 +102,45 @@ public class JavaListener extends JavaParserBaseListener {
 		LexerEventCenter.getInstance().notifyEvent(new LeaveLastContainerEvent(ctx.IDENTIFIER().getText()));
 		super.exitMethodDeclaration(ctx);
 	}
+
+	@Override
+	public void enterStatement(JavaParser.StatementContext ctx) {
+		if (ctx.IF()!=null){
+			LexerEventCenter.getInstance().notifyEvent(new ControlFlowAddEvent(ctx.ELSE()==null?1:2));
+		}
+		if (ctx.FOR()!=null){
+			LexerEventCenter.getInstance().notifyEvent(new ControlFlowAddEvent(2));
+		}
+		if (ctx.WHILE()!=null){
+			LexerEventCenter.getInstance().notifyEvent(new ControlFlowAddEvent(2));
+		}
+		if (ctx.SWITCH()!=null){
+			LexerEventCenter.getInstance().notifyEvent(new ControlFlowAddEvent(1));
+		}
+		if (ctx.BREAK()!=null && ctx.IDENTIFIER()!=null){
+			LexerEventCenter.getInstance().notifyEvent(new ControlFlowAddEvent(1));
+		}
+		if (ctx.CONTINUE()!=null && ctx.IDENTIFIER()!=null){
+			LexerEventCenter.getInstance().notifyEvent(new ControlFlowAddEvent(1));
+		}
+		if (ctx.catchClause()!=null){
+			LexerEventCenter.getInstance().notifyEvent(new ControlFlowAddEvent(ctx.catchClause().size()));
+		}
+
+		super.enterStatement(ctx);
+	}
+
+	@Override
+	public void enterExpression(JavaParser.ExpressionContext ctx) {
+		if (ctx.bop!=null){
+			if (ctx.bop.getText().equals("||") ||
+				ctx.bop.getText().equals("&&"))
+				if (!(ctx.parent instanceof JavaParser.ExpressionContext)){
+					LexerEventCenter.getInstance().notifyEvent(new ControlFlowAddEvent(new ControlFlowCount(ctx).count()));
+				}
+			LexerEventCenter.getInstance().notifyEvent(new ExpressionConditionalEvent(ctx.bop.getText()));
+		}
+		super.enterExpression(ctx);
+	}
+
 }

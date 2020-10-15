@@ -8,6 +8,7 @@ import java.util.List;
 @Data
 public abstract  class Container {
     private int lineCount = 0;
+    private int cognitiveComplexity = 0;
     List<String> words = new ArrayList<>();
 
     public Container(int id, String project, String name){
@@ -42,5 +43,9 @@ public abstract  class Container {
 
     public void incrLoc() {
         this.lineCount ++;
+    }
+
+    public void addCognitiveComplexity(int flowAdding) {
+        this.cognitiveComplexity +=flowAdding;
     }
 }

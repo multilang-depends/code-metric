@@ -33,38 +33,50 @@ public class NodeContext implements Observer {
     }
 
     @Override
-    public void update(Observable o, Object arg) {
-        countLineNumberInLexerContext(arg);
+    public void update(Observable o, Object event) {
+        countLineNumberInLexerContext(event);
 
-        if (arg instanceof NewFileEvent){
-            NewFileEvent newFileEvent = (NewFileEvent) arg;
+        if (event instanceof NewFileEvent){
+            NewFileEvent newFileEvent = (NewFileEvent) event;
             String fileName = newFileEvent.getFileFullPath();
             Container file = addToContainer(fileName);
             containers.push(file);
         }
-        if (arg instanceof ContainerElementEvent){
-            ContainerElementEvent event = (ContainerElementEvent) arg;
-            String type = computeTypeOf(event);
+        if (event instanceof ContainerElementEvent){
+            ContainerElementEvent containerElementEvent = (ContainerElementEvent) event;
+            String type = computeTypeOf(containerElementEvent);
             Container container = null;
             if (type.equals(TYPE_CLASS))
-                container = new ClassContainer(nextId++,this.projectName,currentContainer().getName()+"."+event.getName());
+                container = new ClassContainer(nextId++,this.projectName,currentContainer().getName()+"."+containerElementEvent.getName());
             else if (type.equals(TYPE_METHOD))
-                container = new MethodContainer(nextId++,this.projectName,currentContainer().getName()+"."+event.getName());
+                container = new MethodContainer(nextId++,this.projectName,currentContainer().getName()+"."+containerElementEvent.getName());
             container.setParentId(currentContainer().getId());
-            container.setShortName(event.getName());
+            container.setShortName(containerElementEvent.getName());
             currentContainer().getChildren().add(container);
             containerMap.put(container.getName(), container);
-            container.getWords().addAll(splitter.split(event.getName()));
+            container.getWords().addAll(splitter.split(containerElementEvent.getName()));
             containers.push(container);
-            container.setLineCount(computeLines(((ContainerElementEvent) arg).getStartLine(),((ContainerElementEvent) arg).getEndLine()));
+            container.setLineCount(computeLines(((ContainerElementEvent) event).getStartLine(),((ContainerElementEvent) event).getEndLine()));
         }
 
-        if (arg instanceof LeaveLastContainerEvent){
+        if (event instanceof LeaveLastContainerEvent){
             containers.pop();
         }
-        if (arg instanceof DoneFileEvent){
+        if (event instanceof DoneFileEvent){
             containers.get(0).setLineCount(computeLines(0,lineMarks.size()));
             containers.clear();
+        }
+
+        computeCodeCognitiveComplexity(event);
+    }
+
+    private void computeCodeCognitiveComplexity(Object event) {
+        if (event instanceof ControlFlowAddEvent){
+            ControlFlowAddEvent controlFlowAddEvent = (ControlFlowAddEvent)event;
+            containers.peek().addCognitiveComplexity(controlFlowAddEvent.getFlowAdding());
+        }
+        if (event instanceof ExpressionConditionalEvent){
+//
         }
     }
 

@@ -16,10 +16,10 @@ import metric.measure.MetricValue;
 
 public class Controller {
     @FXML
-    TreeView tree;
+    TreeView nodeTree;
 
     @FXML
-    TableView table;
+    TableView detailTable;
 
     private NodeContext nodeContext;
     private final ObservableList<MetricValue> data =
@@ -31,19 +31,20 @@ public class Controller {
         TreeItem<Container> rootNode  = new TreeItem<>(root);
         rootNode.setExpanded(true);
         loadChildOf(rootNode,root);
-        tree.setRoot(rootNode);
-        tree.setStyle("-fx-font: 16 arial;");
+        nodeTree.setRoot(rootNode);
+        nodeTree.setStyle("-fx-font: 16 arial;");
 
         registerEvent();
         registerCellFactory();
 
-        ((TableColumn)(table.getColumns().get(0))).setCellValueFactory(new PropertyValueFactory<>("name"));
-        ((TableColumn)(table.getColumns().get(1))).setCellValueFactory(new PropertyValueFactory<>("lineCount"));
-        table.setItems(data);
+        ((TableColumn)(detailTable.getColumns().get(0))).setCellValueFactory(new PropertyValueFactory<>("name"));
+        ((TableColumn)(detailTable.getColumns().get(1))).setCellValueFactory(new PropertyValueFactory<>("lineCount"));
+        ((TableColumn)(detailTable.getColumns().get(2))).setCellValueFactory(new PropertyValueFactory<>("cognitiveComplexity"));
+        detailTable.setItems(data);
     }
 
     private void registerCellFactory() {
-        tree.setCellFactory(new Callback<TreeView<Container>, TreeCell<Container>>() {
+        nodeTree.setCellFactory(new Callback<TreeView<Container>, TreeCell<Container>>() {
             public TreeCell<Container> call(TreeView<Container> tv) {
                 return new TreeCell<Container>() {
                     @Override
@@ -57,18 +58,18 @@ public class Controller {
     }
 
     private void registerEvent() {
-        tree.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
+        nodeTree.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>()
         {
             public void handle(MouseEvent event)
             {
                 Node node = event.getPickResult().getIntersectedNode();
 
                 if (node instanceof Text || (node instanceof TreeCell && ((TreeCell) node).getText() != null)) {
-                    Container name = (Container) ((TreeItem)tree.getSelectionModel().getSelectedItem()).getValue();
+                    Container name = (Container) ((TreeItem) nodeTree.getSelectionModel().getSelectedItem()).getValue();
                     data.clear();
-                    data.add(new MetricValue("TOTAL",new Long(name.getLineCount())));
+                    data.add(new MetricValue("TOTAL",new Long(name.getLineCount()),new Long(name.getCognitiveComplexity())));
                     for (Container child:name.getChildren()){
-                        data.add(new MetricValue(child.getName(),new Long(child.getLineCount())));
+                        data.add(new MetricValue(child.getName(),new Long(child.getLineCount()),new Long(child.getCognitiveComplexity())));
                     }
                 }
             }
