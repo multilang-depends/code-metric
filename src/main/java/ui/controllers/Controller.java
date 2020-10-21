@@ -12,7 +12,6 @@ import javafx.scene.text.Text;
 import javafx.util.Callback;
 import metric.element.Container;
 import metric.measure.NodeContext;
-import metric.measure.MetricValue;
 
 public class Controller {
     @FXML
@@ -39,7 +38,8 @@ public class Controller {
 
         ((TableColumn)(detailTable.getColumns().get(0))).setCellValueFactory(new PropertyValueFactory<>("name"));
         ((TableColumn)(detailTable.getColumns().get(1))).setCellValueFactory(new PropertyValueFactory<>("lineCount"));
-        ((TableColumn)(detailTable.getColumns().get(2))).setCellValueFactory(new PropertyValueFactory<>("cognitiveComplexity"));
+        ((TableColumn)(detailTable.getColumns().get(2))).setCellValueFactory(new PropertyValueFactory<>("stmtCount"));
+        ((TableColumn)(detailTable.getColumns().get(3))).setCellValueFactory(new PropertyValueFactory<>("cognitiveComplexity"));
         detailTable.setItems(data);
     }
 
@@ -67,9 +67,9 @@ public class Controller {
                 if (node instanceof Text || (node instanceof TreeCell && ((TreeCell) node).getText() != null)) {
                     Container name = (Container) ((TreeItem) nodeTree.getSelectionModel().getSelectedItem()).getValue();
                     data.clear();
-                    data.add(new MetricValue("TOTAL",new Long(name.getLineCount()),new Long(name.getCognitiveComplexity())));
+                    data.add(new MetricValue("TOTAL",new Long(name.getLineCount()),new Long(name.getStmtCount()),new Long(name.getCognitiveComplexity())));
                     for (Container child:name.getChildren()){
-                        data.add(new MetricValue(child.getName(),new Long(child.getLineCount()),new Long(child.getCognitiveComplexity())));
+                        data.add(new MetricValue(child.getName(),new Long(child.getLineCount()),new Long(child.getStmtCount()),new Long(child.getCognitiveComplexity())));
                     }
                 }
             }

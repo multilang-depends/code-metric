@@ -105,6 +105,7 @@ public class JavaListener extends JavaParserBaseListener {
 
 	@Override
 	public void enterStatement(JavaParser.StatementContext ctx) {
+		LexerEventCenter.getInstance().notifyEvent(new NewStmtEvent(ctx.getText()));
 		if (ctx.IF()!=null){
 			LexerEventCenter.getInstance().notifyEvent(new ControlFlowAddEvent(ctx.ELSE()==null?1:2));
 		}
@@ -128,6 +129,18 @@ public class JavaListener extends JavaParserBaseListener {
 		}
 
 		super.enterStatement(ctx);
+	}
+
+	@Override
+	public void enterVariableDeclarator(JavaParser.VariableDeclaratorContext ctx) {
+		LexerEventCenter.getInstance().notifyEvent(new NewStmtEvent(ctx.getText()));
+		super.enterVariableDeclarator(ctx);
+	}
+
+	@Override
+	public void enterConstantDeclarator(JavaParser.ConstantDeclaratorContext ctx) {
+		LexerEventCenter.getInstance().notifyEvent(new NewStmtEvent(ctx.getText()));
+		super.enterConstantDeclarator(ctx);
 	}
 
 	@Override

@@ -68,6 +68,15 @@ public class NodeContext implements Observer {
         }
 
         computeCodeCognitiveComplexity(event);
+        computeStmtCount(event);
+
+    }
+
+    private void computeStmtCount(Object event) {
+        if (event instanceof NewStmtEvent){
+            System.out.println(containers.peek().getName()+":"+((NewStmtEvent)event).getText());
+            containers.peek().incrStmt();
+        }
     }
 
     private void computeCodeCognitiveComplexity(Object event) {
