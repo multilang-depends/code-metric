@@ -12,7 +12,9 @@
 		<antlr4.visitor>true</antlr4.visitor>
 		<antlr4.listener>true</antlr4.listener>
 		<neo4j-ogm.version>3.1.9</neo4j-ogm.version>
-
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
 	</properties>
 	<build>
 		<plugins>

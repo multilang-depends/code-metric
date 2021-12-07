@@ -41,9 +41,9 @@ import org.apache.commons.io.FilenameUtils;
 import org.codehaus.plexus.util.StringUtils;
 import picocli.CommandLine;
 import picocli.CommandLine.PicocliException;
-import ui.UIMain;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Optional;
 
 public class Main {
@@ -52,21 +52,21 @@ public class Main {
 
 	public static void main(String[] args) {
 		try {
-			new LangRegister();
 			MetricCommand params = CommandLine.populateCommand(new MetricCommand(), args);
 			if (params.help) {
 				CommandLine.usage(new MetricCommand(), System.out);
 				System.exit(0);
 			}
+			new LangRegister(Arrays.asList(params.getLangs()));
 			Main main = new Main();
 			main.executeCommand(params);
 		} catch (Exception e) {
 			if (e instanceof PicocliException) {
 				CommandLine.usage(new MetricCommand(), System.out);
-			} else if (e instanceof ParameterException){
+			} else if (e instanceof ParameterException) {
 				System.err.println(e.getMessage());
-			}else {
-				System.err.println("Exception encountered. If it is a design error, please report issue to us." );
+			} else {
+				System.err.println("Exception encountered. If it is a design error, please report issue to us.");
 				e.printStackTrace();
 			}
 			System.exit(0);
@@ -82,36 +82,33 @@ public class Main {
 		inputDir = FileUtil.uniqFilePath(inputDir);
 		long startTime = System.currentTimeMillis();
 		parseAllFiles(inputDir, parameters.getOutputName());
-		OutputFormatter outputFormatter = new CsvOutputFormatter(metricContext, parameters.getOutputDir(),parameters.getOutputName());
-		outputFormatter.output(getFileNameWritter(parameters),getLeadingNameStripper(parameters, inputDir));
+		OutputFormatter outputFormatter = new CsvOutputFormatter(metricContext, parameters.getOutputDir(), parameters.getOutputName());
+		outputFormatter.output(getFileNameWritter(parameters), getLeadingNameStripper(parameters, inputDir));
 		long endTime = System.currentTimeMillis();
 		System.out.println("Consumed time: " + (float) ((endTime - startTime) / 1000.00) + " s,  or "
 				+ (float) ((endTime - startTime) / 60000.00) + " min.");
-		if (parameters.showGUI()){
-			UIMain.showGui(new String[]{},this.nodeContext);
-		}
 	}
 
 	private ILeadingNameStrippper getLeadingNameStripper(MetricCommand parameters, String inputDir) {
 		ILeadingNameStrippper strippper = new EmptyLeadingNameStripper();
 		if (parameters.isStripLeadingPath())
-			strippper = new LeadingNameStripper(parameters.isStripLeadingPath(),inputDir,parameters.getStrippedPaths());
+			strippper = new LeadingNameStripper(parameters.isStripLeadingPath(), inputDir, parameters.getStrippedPaths());
 		return strippper;
 	}
 
 	private FilenameWritter getFileNameWritter(MetricCommand parameters) throws ParameterException {
 		FilenameWritter filenameWritter = new EmptyFilenameWritter();
 		if (!StringUtils.isEmpty(parameters.getNamePathPattern())) {
-			if (parameters.getNamePathPattern().equals("dot")||
+			if (parameters.getNamePathPattern().equals("dot") ||
 					parameters.getNamePathPattern().equals(".")) {
 				filenameWritter = new DotPathFilenameWritter();
-			}else if (parameters.getNamePathPattern().equals("unix")||
+			} else if (parameters.getNamePathPattern().equals("unix") ||
 					parameters.getNamePathPattern().equals("/")) {
 				filenameWritter = new UnixPathFilenameWritter();
-			}else if (parameters.getNamePathPattern().equals("windows")||
+			} else if (parameters.getNamePathPattern().equals("windows") ||
 					parameters.getNamePathPattern().equals("\\")) {
 				filenameWritter = new WindowsPathFilenameWritter();
-			}else{
+			} else {
 				throw new ParameterException("Unknown name pattern paremater:" + parameters.getNamePathPattern());
 			}
 		}
@@ -135,7 +132,6 @@ public class Main {
 
 		});
 		fileTransversal.travers(inputSrcPath);
-		nodeContext.dump();
 		System.out.println("all files procceed successfully...");
 		return metricContext;
 	}
@@ -143,11 +139,13 @@ public class Main {
 	protected void parseFile(String fileFullPath) {
 		String extension = FilenameUtils.getExtension(fileFullPath);
 		Optional<AbstractLangProcessor> processor = LangProcessorRegistration.getRegistry().getLangOf(extension);
-		processor.ifPresent(p->{
-			System.out.println("parsing " + fileFullPath + "...");
-			p.process(fileFullPath, metricContext);});
-
+		try {
+			processor.ifPresent(p -> {
+				System.out.println("parsing " + fileFullPath + "...");
+				p.process(fileFullPath, metricContext);
+			});
+		} catch (Exception e) {
+			System.err.println("parse " + fileFullPath + " encountered exception");
+		}
 	}
-
-
 }

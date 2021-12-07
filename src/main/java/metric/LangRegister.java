@@ -27,17 +27,31 @@ package metric;
 import metric.parser.AbstractLangProcessor;
 import metric.parser.LangProcessorRegistration;
 
-public class LangRegister {
-	public LangRegister() {
-		add (new metric.parser.java.JavaProcessor());
-		add (new metric.parser.python.PythonProcessor());
-		add (new metric.parser.cpp.CppProcessor());
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
+public class LangRegister {
+	public LangRegister(){
+		this(new ArrayList<>());
+	}
+	public LangRegister(List<String> langs) {
+		if (langs.size()==0){
+			langs = Arrays.asList("java","python","c");
+		}
+		if (langs.contains("java")) {
+			add(new metric.parser.java.JavaProcessor());
+		}
+		if (langs.contains("python")) {
+			add (new metric.parser.python.PythonProcessor());
+		}
+		if (langs.contains("c")) {
+			add (new metric.parser.cpp.CppProcessor());
+		}
 	}
 
 	private void add(AbstractLangProcessor langProcessor) {
 		LangProcessorRegistration.getRegistry().register(langProcessor);
-
 	}
 }
 
